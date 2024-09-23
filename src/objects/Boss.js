@@ -1,28 +1,30 @@
 export default class Boss extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
-    super(scene, x, y, 'boss') 
+    super(scene, x, y, 'boss')
     scene.add.existing(this)
     scene.physics.add.existing(this)
 
     this.scene = scene
     this.setOrigin(0.5, 0.5)
-
+    this.setCollideWorldBounds(true) // Mantener al enemigo dentro de los límites
+    this.body.setAllowGravity(false) // Evitar que caiga
+    this.body.immovable = true // Hacer que el jefe no se mueva por colisiones
     // Variables del jefe
-    this.health = 100 
-    this.speed = 100 
-    this.isCharging = false 
-    this.chargeSpeed = 400 
-    this.chargeCooldown = 3000 
-    this.setDisplaySize(150, 150) 
-    this.shootCooldown = 5000 
-    this.projectiles = scene.physics.add.group() 
+    this.health = 100
+    this.speed = 100
+    this.isCharging = false
+    this.chargeSpeed = 400
+    this.chargeCooldown = 3000
+    this.setDisplaySize(150, 150)
+    this.shootCooldown = 5000
+    this.projectiles = scene.physics.add.group()
 
     this.startBehavior()
   }
 
   startBehavior() {
     this.movementEvent = this.scene.time.addEvent({
-      delay: 1000, 
+      delay: 1000,
       callback: this.updateMovement,
       callbackScope: this,
       loop: true
@@ -64,7 +66,7 @@ export default class Boss extends Phaser.Physics.Arcade.Sprite {
       this.scene.time.delayedCall(1000, () => {
         if (!this.active) return // No continuar si ya está muerto
         this.isCharging = false
-        this.body.setVelocity(0) 
+        this.body.setVelocity(0)
       })
     }
   }
@@ -73,7 +75,7 @@ export default class Boss extends Phaser.Physics.Arcade.Sprite {
     if (!this.active) return // No disparar si ya está muerto
 
     const bulletSpeed = 200
-    const angles = [0, 45, 90, 135, 180, 225, 270, 315] 
+    const angles = [0, 45, 90, 135, 180, 225, 270, 315]
 
     angles.forEach((angle) => {
       const radianAngle = Phaser.Math.DegToRad(angle)
@@ -95,11 +97,11 @@ export default class Boss extends Phaser.Physics.Arcade.Sprite {
 
   die() {
     console.log("¡El jefe ha sido derrotado!")
-    
+
     this.setActive(false)
     this.setVisible(false)
     this.body.setEnable(false)
-    
+
     // Detener los eventos asociados al jefe
     if (this.movementEvent) this.movementEvent.remove(false)
     if (this.chargeEvent) this.chargeEvent.remove(false)

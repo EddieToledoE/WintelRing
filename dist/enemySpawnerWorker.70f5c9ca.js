@@ -118,8 +118,6 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   return newRequire;
 })({"../utils/Workers/enemySpawnerWorker.js":[function(require,module,exports) {
-// enemySpawnerWorker.js
-
 // Función para generar posiciones aleatorias dentro de los límites del mapa
 function generateEnemyPosition(mapWidth, mapHeight) {
   var x = Math.floor(Math.random() * mapWidth);
@@ -136,8 +134,6 @@ onmessage = function onmessage(e) {
     mapWidth = _e$data.mapWidth,
     mapHeight = _e$data.mapHeight,
     interval = _e$data.interval;
-  console.log('Web Worker iniciado con:', mapWidth, mapHeight, interval); // Verifica que estos valores no sean undefined
-
   if (!mapWidth || !mapHeight || !interval) {
     console.error("Parámetros incorrectos recibidos por el Web Worker");
     return;
@@ -146,7 +142,6 @@ onmessage = function onmessage(e) {
   // Generar enemigos en intervalos regulares
   setInterval(function () {
     var position = generateEnemyPosition(mapWidth, mapHeight);
-    console.log('Generando nuevo enemigo en posición:', position);
     postMessage(position); // Enviar la posición de un nuevo enemigo al hilo principal
   }, interval);
 };
@@ -175,7 +170,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50198" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51818" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

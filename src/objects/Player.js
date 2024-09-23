@@ -8,7 +8,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.setOrigin(0.5, 0.5)
     this.setDisplaySize(150, 150)
     this.setCollideWorldBounds(true)
-    this.health = 20 // Vida inicial del jugador
+    this.health = 30 // Vida inicial del jugador
     this.lastDirection = 'right'
   }
 

@@ -39,9 +39,9 @@ export class Game extends Phaser.Scene {
 
   create() {
     this.hitSound = this.sound.add('hitsound');
-    this.add.image(800, 400, 'battleArena').setDepth(-1)
+    this.add.image((window.innerWidth / 2), (window.innerHeight / 2), 'battleArena').setDepth(-1)
     // Reiniciar la bandera de fin de juego
-    this.isGameOver = false 
+    this.isGameOver = false
     this.enemiesDefeated = 0
     this.timeRemaining = 60
     // Establecer los límites del mundo
@@ -53,6 +53,9 @@ export class Game extends Phaser.Scene {
     // Crear el arma
     this.weapon = new Weapon(this, this.player)
 
+    //Crear textos para indicar los controles 
+    this.attackText = this.add.text(10, 60, "Atacar : ESPACIO", { fontSize: '30px', fill: '#ffffff' })
+    this.switchWeaponText = this.add.text(10, 80, "Cambiar Arma : Q", { fontSize: '30px', fill: '#ffffff' })
     // Crear los textos de tiempo y enemigos derrotados
     this.survivalTimeText = this.add.text(10, 10, `Tiempo restante: ${this.timeRemaining}s`, { fontSize: '20px', fill: '#ffffff' })
     this.enemiesDefeatedText = this.add.text(10, 40, `Enemigos derrotados: ${this.enemiesDefeated}`, { fontSize: '20px', fill: '#ffffff' })
@@ -125,20 +128,20 @@ export class Game extends Phaser.Scene {
 
   initializeEnemySpawner() {
     if (this.worker) {
-      this.worker.terminate(); // Asegúrate de terminar el worker si existe
+      this.worker.terminate();
       this.worker = null;
     }
-  
+
     this.worker = new Worker('../../utils/Workers/enemySpawnerWorker.js');
-    
-    const mapWidth = 1600
-    const mapHeight = 800
-    const interval = 3000
-    
+
+    const mapWidth = window.innerWidth
+    const mapHeight = window.innerHeight
+    const interval = 2000
+
     this.worker.postMessage({ mapWidth, mapHeight, interval })
-    
+
     this.worker.onmessage = (e) => {
-      if (!this.isGameOver && this.enemies) { 
+      if (!this.isGameOver && this.enemies) {
         const { x, y } = e.data
         console.log(`Nuevo enemigo generado en posición (${x}, ${y})`)
 
@@ -163,14 +166,14 @@ export class Game extends Phaser.Scene {
       this.timeWorker = null;
     }
     this.timeWorker = new Worker('../../utils/Workers/timeCounterWorker.js');
-  
+
     this.timeWorker.postMessage({}) // Iniciar la cuenta regresiva
-  
+
     this.timeWorker.onmessage = (e) => {
       this.timeRemaining = e.data // Actualizar la variable de tiempo restante
-      if (!this.isGameOver && this.survivalTimeText) { 
+      if (!this.isGameOver && this.survivalTimeText) {
         this.survivalTimeText.setText(`Tiempo restante: ${this.timeRemaining}s`)
-  
+
         // Si el tiempo llega a 0 y no has derrotado suficientes enemigos, game over
         if (this.timeRemaining <= 0) {
           if (this.enemiesDefeated < 10) {
@@ -182,14 +185,14 @@ export class Game extends Phaser.Scene {
       }
     }
   }
-  
+
 
   initializeEnemyWorker() {
     if (this.enemyWorker) {
       this.enemyWorker.terminate(); // Asegúrate de terminar el worker si existe
       this.enemyWorker = null;
     }
-  
+
     this.enemyWorker = new Worker('../../utils/Workers/enemyCounterWorker.js');
 
     // Escuchar los mensajes del worker de enemigos derrotados
@@ -288,41 +291,41 @@ export class Game extends Phaser.Scene {
 
   handleGameOver() {
     this.isGameOver = true; // Marcar el juego como terminado
-  
+
     // Terminar los workers
     if (this.worker) {
       this.worker.terminate();
       this.worker = null;
     }
-    
+
     if (this.timeWorker) {
       this.timeWorker.terminate();
       this.timeWorker = null;
     }
-  
+
     if (this.enemyWorker) {
       this.enemyWorker.terminate();
       this.enemyWorker = null;
     }
-  
+
     // Destruir los textos
     if (this.survivalTimeText) {
       this.survivalTimeText.destroy();
       this.survivalTimeText = null;
     }
-  
+
     if (this.enemiesDefeatedText) {
       this.enemiesDefeatedText.destroy();
       this.enemiesDefeatedText = null;
     }
-  
+
     // Detener la escena
     this.scene.stop();
-  
+
     // Reiniciar la escena después de asegurarte que todo ha sido limpiado
     this.time.delayedCall(1000, () => {
       this.scene.restart();
     });
   }
-  
+
 }

@@ -37,13 +37,13 @@ export default class MainMenu extends Phaser.Scene {
     this.cameras.main.setBackgroundColor('#442f30')
 
     // Imagen del logo centrada
-    const logo = this.add.image(800, 400, 'logo') // 800 y 400 centran la imagen en 1600x800
+    const logo = this.add.image((window.innerWidth / 2), (window.innerHeight / 2), 'logo') // 800 y 400 centran la imagen en 1600x800
     logo.setScale(0.75) // Escala ajustada para que no sea tan grande
 
     // Opción para iniciar el juego
-    this.add.text(800, 750, 'Press ENTER to Start', { fontSize: '44px', fill: '#fff' }).setOrigin(0.5)
+    this.add.text((window.innerWidth / 2), (window.innerHeight / 2), 'Press ENTER to Start', { fontSize: '44px', fill: '#fff' }).setOrigin(0.5)
 
-   
+
 
     // Iniciar el juego al presionar ENTER
     this.input.keyboard.once('keydown-ENTER', () => {

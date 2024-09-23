@@ -4,7 +4,10 @@ import BossImagen from '../../assets/Boss.png'
 import Bullet from '../../assets/bullet.png'
 import Player from '../objects/Player'
 import Weapon from '../objects/Weapon'
-
+import BattleArena from '../../assets/battleArena.png'
+import gunSound from '../../assets/gunSound.mp3'
+import swordSound from '../../assets/swordSound.mp3'
+import hitsound from '../../assets/damage.mp3'
 export class BossFinalScene extends Phaser.Scene {
   constructor() {
     super({ key: 'bossFinal' }) // Nombre de la escena
@@ -12,11 +15,17 @@ export class BossFinalScene extends Phaser.Scene {
 
   preload() {
     // Cargar la imagen del jefe y las balas
-    this.load.image('boss', BossImagen) // Cambia la ruta a tu imagen
+    this.load.image('boss', BossImagen)
     this.load.image('bullet', Bullet)
+    this.load.image('battleArena', BattleArena)
+    this.load.audio('gunshot', gunSound)
+    this.load.audio('swordslash', swordSound)
+    this.load.audio('hitsound', hitsound)
   }
 
   create() {
+    this.hitSound = this.sound.add('hitsound');
+    this.add.image((window.innerWidth / 2), (window.innerHeight / 2), 'battleArena').setDepth(-1)
     // Crear el jugador
     this.player = new Player(this, 400, 300) // Posición inicial del jugador
     this.weapon = new Weapon(this, this.player) // Usar la clase de armas
@@ -62,6 +71,7 @@ export class BossFinalScene extends Phaser.Scene {
   playerBulletHitBoss(boss, bullet) {
     // Verificar si el objeto es una instancia de BossFinal antes de aplicar daño
     if (boss instanceof BossFinal) {
+      this.hitSound.play();
       boss.takeDamage(10) // El jefe recibe daño
       bullet.destroy() // Destruir la bala del jugador
       this.checkBossDefeated() // Verificar si el jefe ha sido derrotado
@@ -72,6 +82,7 @@ export class BossFinalScene extends Phaser.Scene {
   playerSlashHitBoss(boss, slash) {
     // Verificar si el objeto es una instancia de BossFinal antes de aplicar daño
     if (boss instanceof BossFinal) {
+      this.hitSound.play();
       boss.takeDamage(15) // El jefe recibe más daño con la espada
       slash.destroy() // Destruir el slash (tajada) de la espada
       this.checkBossDefeated() // Verificar si el jefe ha sido derrotado

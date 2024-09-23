@@ -1,4 +1,4 @@
-// enemyCounterWorker.js
+
 
 let defeatedEnemies = 0
 

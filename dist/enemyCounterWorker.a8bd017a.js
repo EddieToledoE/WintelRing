@@ -118,8 +118,6 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   return newRequire;
 })({"../utils/Workers/enemyCounterWorker.js":[function(require,module,exports) {
-// enemyCounterWorker.js
-
 var defeatedEnemies = 0;
 
 // Escuchar cuando el hilo principal envíe un mensaje para incrementar el conteo
@@ -152,7 +150,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50198" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51818" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

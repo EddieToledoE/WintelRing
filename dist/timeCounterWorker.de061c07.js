@@ -118,8 +118,6 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   return newRequire;
 })({"../utils/Workers/timeCounterWorker.js":[function(require,module,exports) {
-// timeCounterWorker.js
-
 onmessage = function onmessage() {
   var timeRemaining = 60; // Inicializar la cuenta regresiva en 60 segundos
 
@@ -160,7 +158,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50198" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51818" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
