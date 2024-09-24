@@ -45,7 +45,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
   die() {
     console.log('El jugador ha muerto!')
-    console.log('El jugador ha muerto!')
     this.setActive(false) // Desactivar el jugador para detener el update
     this.setVisible(false) // Esconder el sprite del jugador
     this.scene.scene.start('GameOver') // Iniciar la escena de "Game Over"

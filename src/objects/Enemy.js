@@ -11,7 +11,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
 
     this.setDisplaySize(150, 150) // Tamaño del enemigo
-    this.body.setSize(100, 100) // Ajustar el hitbox del enemigo
+    this.body.setSize(800, 800) // Ajustar el hitbox del enemigo
     // Log para verificar posición
     console.log(`Enemigo creado en posición (${x}, ${y})`)
   }
@@ -37,7 +37,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
   takeDamage(amount) {
     this.health -= amount
     console.log(`Enemigo golpeado. Vida restante: ${this.health}`)
-    
+
     if (this.health <= 0) {
       console.log("Enemigo destruido")
       this.destroy() // Destruir el enemigo si su vida llega a 0

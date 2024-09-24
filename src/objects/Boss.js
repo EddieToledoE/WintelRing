@@ -10,12 +10,12 @@ export default class Boss extends Phaser.Physics.Arcade.Sprite {
     this.body.setAllowGravity(false) // Evitar que caiga
     this.body.immovable = true // Hacer que el jefe no se mueva por colisiones
     // Variables del jefe
-    this.health = 100
-    this.speed = 100
+    this.health = 200
+    this.speed = 150
     this.isCharging = false
-    this.chargeSpeed = 400
+    this.chargeSpeed = 600
     this.chargeCooldown = 3000
-    this.setDisplaySize(150, 150)
+    this.setDisplaySize(250, 250)
     this.shootCooldown = 5000
     this.projectiles = scene.physics.add.group()
 
@@ -74,7 +74,7 @@ export default class Boss extends Phaser.Physics.Arcade.Sprite {
   shootInAllDirections() {
     if (!this.active) return // No disparar si ya está muerto
 
-    const bulletSpeed = 200
+    const bulletSpeed = 300
     const angles = [0, 45, 90, 135, 180, 225, 270, 315]
 
     angles.forEach((angle) => {

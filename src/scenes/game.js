@@ -136,7 +136,7 @@ export class Game extends Phaser.Scene {
 
     const mapWidth = window.innerWidth
     const mapHeight = window.innerHeight
-    const interval = 2000
+    const interval = 2500
 
     this.worker.postMessage({ mapWidth, mapHeight, interval })
 
@@ -255,7 +255,7 @@ export class Game extends Phaser.Scene {
   enemyHitPlayer(player, enemy) {
     const distance = Phaser.Math.Distance.Between(player.x, player.y, enemy.x, enemy.y)
 
-    if (distance < 40) {
+    if (distance < 5) {
       player.takeDamage(10)
       enemy.destroy()
 
